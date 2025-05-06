@@ -34,56 +34,129 @@ export const PokemonScreen = ({navigation, route}:Props) => {
   }
   return (
     <ScrollView
-    style={ { flex: 1, backgroundColor: pokemon.color } }
-    bounces={ false }
-    showsVerticalScrollIndicator={ false }>
-    {/* Header Container */ }
-    <View style={ styles.headerContainer }>
-      {/* Nombre del Pokemon */ }
-      <Text
-        style={ {
-          ...styles.pokemonName,
-          top: top + 5,
-        } }>
-        { Formatter.capitalize( pokemon.name ) + '\n' }#{ pokemon.id }
-      </Text>
+      style={ { flex: 1, backgroundColor: pokemon.color } }
+      bounces={ false }
+      showsVerticalScrollIndicator={ false }
+      >
+      {/* Header Container */ }
+      <View style={ styles.headerContainer }>
+        {/* Nombre del Pokemon */ }
+        <Text
+          style={ {
+            ...styles.pokemonName,
+            top: top + 5,
+          } }>
+          { Formatter.capitalize( pokemon.name ) + '\n' }#{ pokemon.id }
+        </Text>
 
-      {/* Pokeball */ }
-      <Image source={ pokeballImg } style={ styles.pokeball } />
+        {/* Pokeball */ }
+        <Image source={ pokeballImg } style={ styles.pokeball } />
 
-      <FadeInImage uri={ pokemon.avatar } style={ styles.pokemonImage } />
-    </View>
+        <FadeInImage uri={ pokemon.avatar } style={ styles.pokemonImage } />
+      </View>
 
-    {/* Types */ }
-    <View
-      style={ { flexDirection: 'row', marginHorizontal: 20, marginTop: 10 } }>
-      { pokemon.types.map( type => (
-        <Chip
-          key={ type }
-          mode="outlined"
-          selectedColor="white"
-          style={ { marginLeft: 10 } }>
-          { type }
-        </Chip>
-      ) ) }
-    </View>
+      {/* Types */ }
+      {/* <View
+        style={ { flexDirection: 'row', marginHorizontal: 20, marginTop: 10 } }>
+        { pokemon.types.map( type => (
+          <Chip
+            key={ type }
+            mode="outlined"
+            selectedColor="white"
+            style={ { marginLeft: 10 } }>
+            { type }
+          </Chip>
+        ) ) }
+      </View> */}
+      <View
+        style={{ flexDirection: 'row', marginHorizontal: 20, marginTop: 10 }}>
+        {pokemon.types.map(type => (
+          <Chip
+            key={type}
+            mode="outlined"
+            textStyle={{ color: 'white' }}
+            style={{
+              marginLeft: 10,
+              backgroundColor: 'rgba(0,0,0,0.3)', // o un color específico por tipo
+            }}>
+            {type}
+          </Chip>
+        ))}
+      </View>
 
-    {/* Sprites */ }
-    <FlatList
-      data={ pokemon.sprites }
-      horizontal
-      keyExtractor={ item => item }
-      showsHorizontalScrollIndicator={ false }
-      centerContent
-      style={ {marginTop: 20,height: 100} }
-      renderItem={ ( { item } ) => (
-        <FadeInImage
-          uri={ item }
-          style={ { width: 100, height: 100, marginHorizontal: 5 } }
-        />
-      ) }
-    />
-    <View style={ { height: 100 } } />
+
+      {/* Sprites */ }
+      <FlatList
+        data={ pokemon.sprites }
+        horizontal
+        keyExtractor={ item => item }
+        showsHorizontalScrollIndicator={ false }
+        centerContent
+        style={ {marginTop: 20,height: 100} }
+        renderItem={ ( { item } ) => (
+          <FadeInImage
+            uri={ item }
+            style={ { width: 100, height: 100, marginHorizontal: 5 } }
+          />
+        ) }
+      />
+      {/* Abilities */}
+      <Text style={styles.subTitle}>Abilities</Text>
+      <FlatList
+        data={pokemon.abilities}
+        horizontal
+        keyExtractor={ item => item }
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item})=>{
+          return <Chip selectedColor="white">{Formatter.capitalize(item)}</Chip>;
+        }}
+      />
+      {/* Stats */}
+      <Text style={styles.subTitle}>Stats</Text>
+      <FlatList
+        data={pokemon.stats}
+        keyExtractor={ item => item.name }
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item})=>(
+          <View style ={styles.statsContainer}>
+            <Text style={{ flex:1,color:'white' }}>
+              {Formatter.capitalize(item.name)}
+            </Text>
+            <Text style={{ color:'white' }}>{item.value}</Text>
+          </View>
+        )}
+      />
+      {/* moves */}
+      <Text style={styles.subTitle}>Moves</Text>
+      <FlatList
+        data={pokemon.moves}
+        keyExtractor={ item => item.name }
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        centerContent
+        renderItem={({item})=>(
+          <View style ={styles.statsContainer}>
+            <Text style={{ flex:1,color:'white' }}>
+              {Formatter.capitalize(item.name)}
+            </Text>
+            <Text style={{ color:'white' }}>lvl {item.level}</Text>
+          </View>
+        )}
+      />
+      {/* games */}
+      <Text style={styles.subTitle}>Games</Text>
+      <FlatList
+        data={pokemon.games}
+        keyExtractor={ item => item }
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        centerContent
+        renderItem={({item})=>(
+          <Chip selectedColor="white">{Formatter.capitalize(item)}</Chip>
+        )}
+      />
+     <View style={ { height: 100 } } />
   </ScrollView>
   );
 };

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View } from 'react-native'
+import { View } from 'react-native';
 import { ActivityIndicator, useTheme } from 'react-native-paper';
 
 export const FullScreenLoader = () => {
